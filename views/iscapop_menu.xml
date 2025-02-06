@@ -1,0 +1,42 @@
+<odoo>
+    <menuitem id="menu_iscapop_root" name="IscaPop" web_icon="iscapop,static/description/icono.png"/>
+
+
+    <record id="action_iscapop_categories" model="ir.actions.act_window">
+        <field name="name">Categories</field>
+        <field name="res_model">iscapop.categories_model</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('create_uid', '=', uid)]</field>
+    </record>
+
+    <menuitem id="menu_iscapop_categories" name="Categories" parent="menu_iscapop_root" action="action_iscapop_categories" sequence="10"/>
+
+    <record id="action_iscapop_locations" model="ir.actions.act_window">
+        <field name="name">Classrooms</field>
+        <field name="res_model">iscapop.locations_model</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('create_uid', '=', uid)]</field>
+    </record>
+
+    <menuitem id="menu_iscapop_locations" name="Locations" parent="menu_iscapop_root" action="action_iscapop_locations" sequence="20"/>
+
+    <!-- Action for Materials -->
+    <record id="action_item_model" model="ir.actions.act_window">
+        <field name="name">Materials</field>
+        <field name="res_model">iscapop.items_model</field>
+        <field name="view_mode">kanban,tree,form,graph</field>
+        <field name="domain">[('create_uid', '=', uid)]</field>
+    </record>
+
+    <menuitem id="menu_iscapop_materials" name="Materials" parent="menu_iscapop_root" action="action_item_model" sequence="30"/>
+
+    <!-- Action for Donations -->
+    <record id="action_donations" model="ir.actions.act_window">
+        <field name="name">Donations</field>
+        <field name="res_model">iscapop.donations</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_donations" name="Donations" parent="menu_iscapop_root" action="action_donations" sequence="40"/>
+
+</odoo>

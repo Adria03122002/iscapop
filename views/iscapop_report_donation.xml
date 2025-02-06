@@ -1,0 +1,53 @@
+<odoo>
+    <template id="report_donation_template">
+        <t t-call="web.external_layout">
+            <main>
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page">
+                        <h2 class="text-center">ANEXO IV: PROPUESTA DE CESIÓN DE EQUIPAMIENTO ESCOLAR</h2>
+
+                        <h4>Datos del Centro que Cede:</h4>
+                        <p><strong>CENTRO:</strong> <t t-esc="doc.donated_by.name"/></p>
+
+                        <h4>Datos del Centro Destinatario:</h4>
+                        <p><strong>CENTRO:</strong> <t t-esc="doc.reserved_by.name"/></p>
+
+                        <h4>Datos del Artículo o Artículos:</h4>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Denominación del Artículo</th>
+                                    <th>Cantidad</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><t t-esc="doc.item_id.name"/></td>
+                                    <td><t t-esc="doc.stock_shared"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h4>Firmas:</h4>
+                        <p><strong>Firma del Centro Donante:</strong> __________________________</p>
+                        <p><strong>Firma del Centro Receptor:</strong> __________________________</p>
+                    </div>
+                </t>
+            </main>
+        </t>
+    </template>
+
+
+
+
+
+    <!-- Acción del Informe -->
+    <record id="action_report_iscapop_reserved_items" model="ir.actions.report">
+        <field name="name">Donated Report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="model">iscapop.donations</field>
+        <field name="report_name">iscapop.report_donation_template</field>
+        <field name="binding_model_id" ref="model_iscapop_donations"/>
+        <field name="print_report_name">'Donation_Report_%s_%s' % (object.donated_by.name or 'UnknownCenter', object.item_id.name or 'UnknownItem')</field>
+    </record>
+</odoo>

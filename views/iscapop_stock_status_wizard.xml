@@ -1,0 +1,28 @@
+<odoo>
+    <record id="view_stock_status_wizard" model="ir.ui.view">
+        <field name="name">iscapop.stock_status_wizard.form</field>
+        <field name="model">iscapop.stock_status_wizard</field>
+        <field name="arch" type="xml">
+            <form string="Change Stock Status">
+                <sheet>
+                    <group>
+                        <field name="location_id" invisible="1"/>
+                        <field name="stock_status"/>
+                        <field name="stock_quantity"/>
+                        <field name="item_detail_ids" widget="many2many_tags"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Change Status" type="object" name="change_stock_status" class="oe_highlight"/>
+                    <button string="Cancel" type="object" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_stock_status_wizard" model="ir.actions.act_window">
+        <field name="name">Wizard Stock Status</field>
+        <field name="res_model">iscapop.stock_status_wizard</field>
+        <field name="view_mode">form</field>
+    </record>
+</odoo>

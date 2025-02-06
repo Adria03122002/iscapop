@@ -1,0 +1,39 @@
+<odoo>
+
+    <!-- Vista de árbol (listado) -->
+    <record id="view_iscapop_categories_tree" model="ir.ui.view">
+        <field name="name">iscapop.categories_model.tree</field>
+        <field name="model">iscapop.categories_model</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="father_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista de formulario -->
+    <record id="view_iscapop_categories_form" model="ir.ui.view">
+        <field name="name">iscapop.categories_model.form</field>
+        <field name="model">iscapop.categories_model</field>
+        <field name="arch" type="xml">
+            <form string="Category">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="description"/>
+                        <field name="father_id" domain="[('create_uid', '=', uid)]"/>
+                        <field name="child_ids" domain="[('create_uid', '=', uid)]"/>
+                        <field name="item_ids">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

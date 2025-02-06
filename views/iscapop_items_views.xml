@@ -1,0 +1,101 @@
+<odoo>
+    <!-- Kanban View for Materials -->
+    <record id="view_isca_pop_item_model_kanban" model="ir.ui.view">
+        <field name="name">iscapop.item_model.kanban</field>
+        <field name="model">iscapop.items_model</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="category_id"> <!-- Agrupación por categoría -->
+                <field name="name"/>
+                <field name="category_id"/>
+                <templates>
+                    <!-- Vista de cada tarjeta en el kanban -->
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_card_header">
+                                <field name="photo" widget="image" class="o_kanban_image"/>
+                                <div class="o_kanban_details">
+                                    <strong>
+                                        <field name="name"/> <!-- Nombre del ítem -->
+                                    </strong>
+                                    <div>
+                                        <field name="description"/> <!-- Descripción -->
+                                    </div>
+                                    <div>
+                                        <strong>Stock Total:</strong> <field name="full_stock"/> <!-- Stock Total -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                    <!-- Vista del encabezado del grupo de categorías -->
+                    <t t-name="kanban-box-group">
+                        <div class="o_kanban_group_header">
+                            <strong><t t-esc="record.category_id.raw_value"/></strong> <!-- Nombre de la categoría -->
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+        <record id="view_isca_pop_item_model_graph" model="ir.ui.view">
+        <field name="name">iscapop.item_model.graph</field>
+        <field name="model">iscapop.items_model</field>
+        <field name="arch" type="xml">
+            <graph string="Material Stock by Category" type="bar">
+                <field name="full_stock" type="measure"/>  <!-- Cantidad de stock -->
+                <field name="category_id" type="dimension"/>  <!-- Categoría -->
+            </graph>
+        </field>
+    </record>
+
+    <!-- Tree View for Materials -->
+    <record id="view_item_model_tree" model="ir.ui.view">
+        <field name="name">iscapop.items_model.tree</field>
+        <field name="model">iscapop.items_model</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="category_id"/>
+                <field name="full_stock"/>
+                <field name="item_detail_ids" domain="[('item_id.category_id', '=', category_id)]">
+                    <tree>
+                        <field name="item_id" string="Material"/>
+                        <field name="location_id" string="Classroom"/>
+                        <field name="stock" string="Stock"/>
+                        <field name="stock_status" string="Stock Status"/>
+                    </tree>
+                </field>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View for Materials -->
+    <record id="view_item_model_form" model="ir.ui.view">
+        <field name="name">iscapop.items_model.form</field>
+        <field name="model">iscapop.items_model</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="description"/>
+                        <field name="photo" widget="image"/>
+                        <field name="category_id" domain="[('create_uid', '=', uid)]"/>
+                        <field name="documentation"/>
+                        <field name="item_detail_ids" domain="[('item_id.category_id', '=', category_id)]">
+                            <tree editable="bottom">
+                                <field name="item_id" string="Material"/>
+                                <field name="location_id" string="Classroom"/>
+                                <field name="stock" string="Stock"/>
+                                <field name="stock_status" string="Stock Status"/>
+                            </tree>
+                        </field>
+                        <field name="full_stock"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

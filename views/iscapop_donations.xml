@@ -1,0 +1,114 @@
+<odoo>
+    <!-- Tree View for Donations -->
+    <record id="view_donations_tree" model="ir.ui.view">
+        <field name="name">iscapop.donations.tree</field>
+        <field name="model">iscapop.donations</field>
+        <field name="arch" type="xml">
+            <tree string="Donations">
+                <field name="item_id"/>
+                <field name="location_id"/>
+                <field name="donation_date"/>
+                <field name="donated_by"/>
+                <field name="reserved"/>
+                <field name="reserved_by"/>
+                <field name="stock_shared" string="Shared Stock"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View for Donations -->
+    <record id="view_donations_form" model="ir.ui.view">
+        <field name="name">iscapop.donations.form</field>
+        <field name="model">iscapop.donations</field>
+        <field name="arch" type="xml">
+            <form string="Donation Details">
+                <header>
+                    <!-- Button to reserve the donation -->
+                    <button name="action_reserve_item" 
+                            string="Reserve Stock" 
+                            type="object" 
+                            class="oe_highlight"
+                            invisible="reserved != False"/>
+
+                    <button name="action_generate_pdf" 
+                            string="Generate PDF" 
+                            type="object" 
+                            class="btn-primary"
+                            invisible="reserved == False or donated_by != uid"/>
+
+
+
+                    <!-- Button to assign the stock to a warehouse -->
+                    <button name="action_assign_to_warehouse" 
+                        string="Assign to Warehouse" 
+                        type="object" 
+                        class="btn-primary"
+                        confirm="Are you sure you want to assign this stock to the warehouse?"
+                        invisible="reserved == False or reserved_by != uid or not destination_location_id or not category_id"
+                    />
+
+                    <button name="action_cancel_reservation" 
+                        string="Cancel Reservation" 
+                        type="object" 
+                        class="btn-warning"
+                        invisible="reserved == False"/>
+
+                    <button name="action_cancel_donation" 
+                        string="Cancel Donation" 
+                        type="object" 
+                        class="btn-warning"
+                        invisible="reserved == True or donated_by != uid"/>
+
+
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="item_id" readonly="1"/>
+                        <field name="location_id" readonly="1"/>
+                        <field name="donation_date" readonly="1"/>
+                        <field name="donated_by" readonly="1"/>
+                        <field name="stock_shared" readonly="1"/>
+                        <field name="reserved" readonly="1"/>
+                        <field name="reserved_by" readonly="1"/>
+                        <field name="is_generated_pdf" invisible="1"/>
+
+                        <!-- Destination location field -->
+                        <field name="destination_location_id"
+                               invisible="reserved == False or reserved_by != uid or not is_generated_pdf"
+                               domain="[('location_type', '=', 'warehouse'), ('create_uid', '=', reserved_by)]"/>
+
+                        <!-- Category field -->
+                        <field name="category_id"
+                               invisible="reserved == False or reserved_by != uid or not is_generated_pdf"
+                               domain="[('create_uid', '=', reserved_by)]"/>
+
+                        
+
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View for Donations -->
+    <record id="view_donations_search" model="ir.ui.view">
+        <field name="name">iscapop.donations.search</field>
+        <field name="model">iscapop.donations</field>
+        <field name="arch" type="xml">
+            <search>
+                <!-- Searchable fields -->
+                <field name="item_id"/>
+                <field name="location_id"/>
+                <field name="donation_date"/>
+                <field name="reserved"/>
+
+                <!-- Custom filters -->
+                <filter string="My Reservations" name="my_reservations" domain="[('reserved', '=', True), ('reserved_by', '=', uid)]"/>
+                <filter string="No Reservations" name="no_reservations" domain="[('reserved', '=', False)]"/>
+                <filter string="My Donations" name="my_donations" domain="[('donated_by', '=', uid)]"/>
+                <filter string="By Institutes" name="by_institutes" domain="[('reserved', '=', False)]" context="{'group_by': 'donated_by'}"/>
+            </search>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,53 @@
+<odoo>
+    <template id="report_discard_template">
+        <t t-call="web.external_layout">
+            <main>
+                    <div class="page">
+                        <h2 class="text-center">ANEXO II: SOLICITUD DE BAJA DE EQUIPAMIENTO</h2>
+
+                        <h4>Datos del Centro:</h4>
+                        <p><strong>CENTRO:</strong> <t t-esc="user.name"/></p>
+                        <p><strong>LOCALIDAD:</strong> <t t-esc="user.partner_id.city or ''"/> - <strong>Address.:</strong> <t t-esc="user.partner_id.contact_address or ''"/></p>
+                        <p><strong>TELÉFONO:</strong> <t t-esc="user.partner_id.phone or 'No disponble'"/></p>
+
+                        <h4>Datos del artículo/s:</h4>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Denominación del Artículo</th>
+                                    <th>Cantidad</th>
+                                    <th>Estado de Conservación</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="docs" t-as="doc">
+                                    <tr>
+                                        <td><t t-esc="doc.item_id.name or 'Artículo desconocido'"/></td>
+                                        <td><t t-esc="doc.stock or '0'"/></td>
+                                        <td><t t-esc="doc.stock_status or 'Deteriorated'"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <p class="text-center">
+                            En ________________, a ______ de __________________ de ________
+                        </p>
+
+                        <p class="text-center">
+                            <strong>Firma del Director</strong> | <strong>Sello del Centro</strong>
+                        </p>
+                    </div>
+            </main>
+        </t>
+    </template>
+
+    <record id="action_report_iscapop_discard_items" model="ir.actions.report">
+            <field name="name">Discard Report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="model">iscapop.item_detail</field>  
+            <field name="report_name">iscapop.report_discard_template</field>
+            <field name="binding_model_id" ref="model_iscapop_item_detail"/> 
+            <field name="print_report_name">'Discard_Report_%s' % (object.location_id.name or 'UnknownLocation')</field>
+    </record>
+</odoo>

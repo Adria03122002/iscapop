@@ -1,0 +1,22 @@
+<odoo>
+    <record id="view_iscapop_send_stock_wizard" model="ir.ui.view">
+        <field name="name">iscapop.send.stock.wizard</field>
+        <field name="model">iscapop.send_stock_wizard</field>
+        <field name="arch" type="xml">
+            <form string="Send Stock">
+                <group>
+                    <field name="source_location_id" domain="[('create_uid', '=', uid)]"/>
+                    <field name="item_id"/>
+                    <field name="quantity"/>
+                    <field name="destination_location_id" domain="[('create_uid', '=', uid)]"/>
+                </group>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_view_iscapop_send_stock_wizard" model="ir.actions.act_window">
+        <field name="name">Send Stock Wizard</field>
+        <field name="res_model">iscapop.send_stock_wizard</field>
+        <field name="view_mode">form</field>
+    </record>
+</odoo>

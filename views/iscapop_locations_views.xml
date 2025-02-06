@@ -1,0 +1,59 @@
+<odoo>
+    <!-- Tree View -->
+    <record id="view_iscapop_location_tree" model="ir.ui.view">
+        <field name="name">iscapop.locations_model.tree</field>
+        <field name="model">iscapop.locations_model</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="location_type" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_iscapop_location_form" model="ir.ui.view">
+        <field name="name">iscapop.locations_model.form</field>
+        <field name="model">iscapop.locations_model</field>
+        <field name="arch" type="xml">
+            <form string="Location">
+                <header>
+                    <button name="%(action_view_iscapop_send_stock_wizard)d" string="Move Items" type="action" class="oe_highlight" />
+                    <button name="%(action_stock_status_wizard)d" type="action" string="Change status" class="oe_highlight" context="{'default_location_id': active_id}"/>
+                    <button name="action_donate" string="Donate Material" type="object" class="oe_highlight"/>
+                    <button name ="action_generate_discard_pdf"
+                        string="Generate Discard PDF"
+                        type="object"
+                        class="btn-danger"
+                        confirm="Are you sure want to discard all 'To Discard' materials in this warehouse?"
+                        invisible="location_type != 'warehouse'"
+                    />
+                    <button name="action_delete_discarded_items" 
+                        string="Delete Discarded Items" 
+                        type="object" 
+                        class="btn-danger"
+                    />
+                </header>
+                <group>
+                    <field name="name"/>
+                    <field name="location_type"/>
+                </group>
+                <notebook>
+                    <page string="Descripción">
+                        <field name="description"/>
+                    </page>
+                    <page string="Materiales">
+                        <field name="item_detail_ids">
+                            <tree>
+                                <field name="item_id" string="Material" />
+                                <field name ="stock_status"/>
+                                <field name="stock" string="Stock"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+</odoo>

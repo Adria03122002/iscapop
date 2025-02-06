@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_categories_model,iscapop.categories_model,model_iscapop_categories_model,base.group_user,1,1,1,1
+access_items_model,iscapop.items_model,model_iscapop_items_model,base.group_user,1,1,1,1
+access_item_detail,iscapop.item_detail,model_iscapop_item_detail,base.group_user,1,1,1,1
+access_locations_model,iscapop.locations_model,model_iscapop_locations_model,base.group_user,1,1,1,1
+access_send_stock,iscapop.send_stock_wizard,model_iscapop_send_stock_wizard,base.group_user,1,1,1,1
+access_stock_status,iscapop.stock_status_wizard,model_iscapop_stock_status_wizard,base.group_user,1,1,1,1
+access_donations,iscapop.donations,model_iscapop_donations,base.group_user,1,1,1,1
