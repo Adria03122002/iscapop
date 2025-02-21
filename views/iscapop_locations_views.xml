@@ -40,14 +40,14 @@
                     <field name="location_type"/>
                 </group>
                 <notebook>
-                    <page string="Descripción">
+                    <page string="Description">
                         <field name="description"/>
                     </page>
-                    <page string="Materiales">
-                        <field name="item_detail_ids">
-                            <tree>
+                    <page string="Items">
+                        <field name="item_detail_ids" no_delete = "True">
+                            <tree editable="bottom">
                                 <field name="item_id" string="Material" />
-                                <field name ="stock_status"/>
+                                <field name="stock_status"/>
                                 <field name="stock" string="Stock"/>
                             </tree>
                         </field>

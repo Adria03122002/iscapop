@@ -9,7 +9,12 @@ class ItemDetail(models.Model):
     _description = 'Material Detail'
     _rec_name = "item_id"
 
-    item_id = fields.Many2one('iscapop.items_model', string='Item', required=True)
+    item_id = fields.Many2one(
+        'iscapop.items_model',
+        string='Item',
+        required=True,
+        ondelete='cascade'  # 🔥 Si se elimina el Item, sus item_detail también se eliminan
+    )
     location_id = fields.Many2one('iscapop.locations_model', string='Location',   domain="[('create_uid', '=', uid)]", required=True)
     stock = fields.Integer(string='Stock', default=0)
     photo = fields.Image(string='Photo')
@@ -38,10 +43,11 @@ class ItemDetail(models.Model):
             if record.location_id.location_type != 'warehouse' and record.stock_status != 'available':
                 raise ValidationError("The stock status can only be modified if the location is a warehouse.")
 
-    @api.depends('item_id.name', 'stock')
+    @api.depends('item_id.name', 'stock', 'stock_status')
     def _compute_display_name(self):
         for record in self:
-            stock_status = dict(self._fields['stock_status'].selection).get(record.stock_status, 'Unknown')
+            stock_status_mapping = dict(self._fields['stock_status'].selection or [])
+            stock_status = stock_status_mapping.get(record.stock_status, 'Unknown') if record.stock_status else 'Unknown'
             record.display_name = f"{record.item_id.name or 'Unknown'} ({record.stock} in stock, {stock_status})"
 
     

@@ -7,7 +7,12 @@ class ItemsModel(models.Model):
     name = fields.Char(string='Name', required=True)
     description = fields.Text(string='Description')
     photo = fields.Binary(string='Photo')
-    category_id = fields.Many2one('iscapop.categories_model', string='Category', required=True)
+    category_id = fields.Many2one(
+        'iscapop.categories_model',
+        string='Category',
+        required=True,
+        ondelete='cascade'  # 🔥 Esto elimina los items cuando la categoría es eliminada
+    )
     documentation = fields.Text(string='Documentation')
     item_detail_ids = fields.One2many('iscapop.item_detail', 'item_id', string='Details')
     full_stock = fields.Integer(string='Total Stock', compute='_compute_full_stock', store=True)

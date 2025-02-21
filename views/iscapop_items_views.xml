@@ -98,4 +98,27 @@
             </form>
         </field>
     </record>
+
+    <record id="view_isca_pop_item_model_search" model="ir.ui.view">
+        <field name="name">iscapop.items_model.search</field>
+        <field name="model">iscapop.items_model</field>
+        <field name="arch" type="xml">
+            <search>
+                <!-- Campos disponibles en la barra de búsqueda -->
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="full_stock"/>
+
+                <!-- 🔹 Filtros personalizados -->
+                <filter string="Low Stock" name="low_stock" domain="[('full_stock', '&lt;', 5)]"/>
+                <filter string="By Category" name="by_category" domain="[]" context="{'group_by': 'category_id'}"/>
+                
+                <!-- 🔹 Filtros por tipo de ubicación -->
+                <filter string="Warehouse" name="filter_warehouse" domain="[('item_detail_ids.location_id.location_type', '=', 'warehouse')]"/>
+                <filter string="Classroom" name="filter_classroom" domain="[('item_detail_ids.location_id.location_type', '=', 'classroom')]"/>
+            </search>
+        </field>
+    </record>
+
+
 </odoo>

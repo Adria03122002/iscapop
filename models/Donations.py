@@ -1,8 +1,6 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
-import logging
-
-_logger = logging.getLogger(__name__)
+from odoo.exceptions import UserError
 
 class Donation(models.Model):
     _name = 'iscapop.donations'
@@ -190,3 +188,8 @@ class Donation(models.Model):
             'view_mode': 'tree,form',
             'target': 'current',
         }
+
+    def copy(self, default=None):
+        # Si alguien intenta duplicar, lanzamos un error
+        raise UserError("Duplicating a donation is not allowed.")
+    
